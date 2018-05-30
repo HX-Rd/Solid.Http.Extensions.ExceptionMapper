@@ -42,8 +42,25 @@ namespace HXRd.Solid.Http.Extensions.ExceptionMapper
                 if (predicate(args.Response))
                 {
                     var options = args.Services.GetService<IExceptionMappingSettingsProvider>();
-                    dynamic defaultMapper = options.GetMappingOptions().DefaultMapper;
-                    var ex = await defaultMapper.MapException(args.Response, args.Services) as System.Exception;
+                    var mappingOptions = options.GetMappingOptions();
+                    if(mappingOptions.CustomDefaultMapper != null)
+                    {
+                        dynamic defaultCustomMapper = options.GetMappingOptions().CustomDefaultMapper;
+                        var cex = await defaultCustomMapper.MapException(args.Response, args.Services) as System.Exception;
+                        throw cex;
+                    }
+                    if(mappingOptions.UseModelStateExceptionsAsDefault)
+                    {
+                        var modelMapper = args.Services.GetServices<IExceptionMapper>()
+                                                    .OfType<SolidHttpExceptionMapper<SolidHttpRequestModelException>>()
+                                                    .FirstOrDefault();
+                        var mex = await modelMapper.MapException(args.Response, args.Services);
+                        throw mex;
+                    }
+                    var defaultMapper = args.Services.GetServices<IExceptionMapper>()
+                                                .OfType<SolidHttpExceptionMapper<SolidHttpRequestException>>()
+                                                .FirstOrDefault();
+                    var ex = await defaultMapper.MapException(args.Response, args.Services);
                     throw ex;
                 }
             };

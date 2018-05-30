@@ -11,8 +11,10 @@ namespace HXRd.Solid.Http.Extensions.ExceptionMapper
         public static ISolidHttpBuilder AddExceptionMappings(this ISolidHttpBuilder builder, ExceptionMappingOptions options = default(ExceptionMappingOptions))
         {
             options = options ?? new ExceptionMappingOptions();
-            builder.Services.AddSingleton<SolidHttpExceptionMapper<SolidHttpRequestException>>(new SolidHttpDefaultExceptionMapper());
-            builder.Services.AddSingleton<SolidHttpExceptionMapper<SolidHttpRequestModelException>>(new SolidHttpModelExceptionMapper());
+            /*builder.Services.AddSingleton<SolidHttpExceptionMapper<SolidHttpRequestException>>(new SolidHttpDefaultExceptionMapper());
+            builder.Services.AddSingleton<SolidHttpExceptionMapper<SolidHttpRequestModelException>>(new SolidHttpModelExceptionMapper());*/
+            builder.Services.AddSingleton<IExceptionMapper>(new SolidHttpDefaultExceptionMapper());
+            builder.Services.AddSingleton<IExceptionMapper>(new SolidHttpModelExceptionMapper());
             var provider = new ExceptionMappingSettingsProvider(options);
             builder.Services.AddSingleton<IExceptionMappingSettingsProvider>(provider);
             foreach(var mapper in options.Mappers)

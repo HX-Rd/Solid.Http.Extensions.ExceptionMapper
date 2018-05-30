@@ -11,6 +11,7 @@ namespace HXRd.Solid.Http.Extensions.ExceptionMapper
             Mappers = new List<IExceptionMapper>();
         }
         public IEnumerable<IExceptionMapper> Mappers { get; set; }
-        public IExceptionMapper DefaultMapper { get; set; }
+        public IExceptionMapper CustomDefaultMapper { get; set; }
+        public bool UseModelStateExceptionsAsDefault { get; set; } = false;
     }
 }
