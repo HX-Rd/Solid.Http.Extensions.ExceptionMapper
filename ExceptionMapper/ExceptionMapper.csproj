@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>HXRd.Solid.Http.Extensions.ExceptionMapper</RootNamespace>
+    <AssemblyName>HXRd.Solid.Http.Extensions.ExceptionMapper</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Solid.Http" Version="1.0.32" />
+  </ItemGroup>
+
+</Project>
